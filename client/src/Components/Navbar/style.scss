@@ -1,0 +1,49 @@
+@import '../../global.scss';
+.navbar{
+    .content{
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        .logo{
+            img{
+                width: 50px;
+            }
+
+        }
+        .links{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .link{
+                text-decoration: none;
+                color: inherit;
+            }
+            h6{
+                font-size: 16px;
+                font-weight: 400;
+            }
+            span{
+                cursor: pointer;
+            }
+            .write{
+                height: 50px;
+                width: 50px;
+                background-color: $orange2;
+                font-weight: 300;
+                border: 1px solid white;
+                border-radius:50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                &:hover{
+                    border: 1px solid $orange4;
+                    background-color: white;
+                    color: $orange4;
+                }
+
+
+            }
+
+        }
+    }
+}

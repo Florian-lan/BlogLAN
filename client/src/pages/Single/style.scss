@@ -1,0 +1,81 @@
+@import '../../global.scss';
+.single{
+
+    display: flex;
+    gap: 30px;
+
+    .content{
+        flex:5;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+
+        img{
+            width: 100%;   
+            height: 350px;
+            object-fit: cover;
+          
+        }
+
+        .user{
+            display: flex;
+            gap: 20px;
+
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+
+            }
+            .info{
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                // align-items: center;
+                font-style: 14px;
+                .userName{
+                    font-weight: bold;
+
+                }
+                p{
+
+                }
+
+            }
+            .func{
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                .edit{
+                    &:hover{
+                        color: $orange7;
+                    }
+
+                }
+                .delete{
+                    &:hover{
+                        color: $orange7;
+                    }
+                }
+
+
+            }
+        }
+        .text{
+            .head{
+                color: #333;
+
+            }
+            .plot{
+                text-align: justify;
+                line-height: 30px;
+            }
+        }
+    }
+    .menu{
+        flex:2;
+
+    }
+}

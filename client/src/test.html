@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <script>
+        let list = [{
+                id: 1,
+                stuName: "lan",
+                class: "001"
+            },
+            {
+                id: 2,
+                stuName: "chen",
+                class: "002"
+            },
+            {
+                id: 3,
+                stuName: "li",
+                class: "003"
+            },
+        ]
+
+        // 1. 常用的一种深拷贝方式,最为简单便捷
+        // 但是有一些边界问题，部分情况用不了，比如undefined、函数、symbol会被忽略，等等
+        let newlist = JSON.parse(JSON.stringify(list))
+        newlist.push({
+            id: 4
+        })
+        
+
+        // 2. 手写标准的深拷贝 -> 针对引用数据类型(数组和对象)
+        // 引入hash是为了解决循环引用的问题
+        function deepClone(source, hash = new WeakMap()) {
+            // 第一步：排除所有情况，只需要处理数组和普通对象
+            // a. 排除特例null b. 排除引用类型中的Date和RegExp c. 排除引用类型中的function
+
+            if (source === null) return source // 如果是 null 就不进行拷贝操作
+            if (source instanceof Date) return new Date(source) // 处理日期
+            if (source instanceof RegExp) return new RegExp(source) // 处理正则
+            if (source instanceof HTMLElement) return source // 处理 DOM元素
+
+            if (typeof source !== 'object') return source // 处理原始类型和函数 不需要深拷贝，直接返回
+
+            // 第二步: 避免循环引用，判断hash存储空间中是否已经存在
+            // 剩下引用类型（Obejct）中的 Array 和其他对象等
+            // 如果hash表中存储了当前需要拷贝的对象时，直接返回，不进入后续的递归
+            if (hash.get(source)) {
+                return hash.get(source)
+            }
+
+            // 第三步: 创建新对象，并存入hash
+            // [] -> Array（基类）-> Object 数组的构造器指向Array，Array的构造器指向Object
+            // 原型链机制，source对象没有constructor属性，往source的原型上找，
+            // source.__proto__ = Array.prototype, Array.prototype.constructor = Array
+            const targetObj = source.constructor === Array ? [] : {};
+            // 或者使用以下方式
+            // const targetObj = new source.constructor()
+
+            // 存入hash
+            hash.set(source, targetObj)
+
+            // 第四步: 正式开始拷贝，递归拷贝每一层
+            // 注意：这里不使用for..in..，是因为如果symbol类型数据作为键时，会被for跳过
+            Reflect.ownKeys(source).forEach(key => {
+                targetObj[key] = deepClone(source[key]) // 递归拷贝每一层
+            })
+            // 第五步：返回拷贝得到的新对象
+            return targetObj;
+        }
+
+
+        console.log(newlist, list)
+        console.log(typeof list)
+        let str = "sdfsdf"
+        console.log(str.__proto__)
+
+        // 闭包应用 -> 处理私有数据
+        let makeCounter = function(){
+            let provateCounter = 0;
+            function changeBy(val){
+                privateCounter += val
+            }
+            return {
+                increment: function(){
+                    changeBy(1);
+                },
+                decrement: function(){
+                    changeBy(-1);
+                },
+                value: function(){
+                    return privateCounter
+                }
+            }
+        
+    
+    
+        </script>
+<script src="./dom.js">
+    $('#ul').addClass('blue')
+    </script>
+</body>
+
+</html>
